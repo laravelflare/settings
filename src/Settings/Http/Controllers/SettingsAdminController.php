@@ -34,19 +34,23 @@ class SettingsAdminController extends ModuleAdminController
     /**
      * Settings Panel.
      * 
+     * @param  mixed $panel
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function getIndex()
+    public function getIndex($panel = null)
     {
         return view('flare::admin.settings.index', []);
     }
 
     /**
      * Process Settings Update
+     *
+     * @param  mixed $panel
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postIndex(UpdateSettingsRequest $request)
+    public function postIndex(UpdateSettingsRequest $request, $panel = null)
     {
 
     }
