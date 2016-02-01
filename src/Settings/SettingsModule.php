@@ -50,7 +50,7 @@ class SettingsModule extends ModuleAdmin
         }
 
         if (count($menu) > 0) {
-            $menu = array_merge(['settings' => 'All Settings'], $menu);
+            $menu = array_merge(['settings' => 'Other Settings'], $menu);
         }
 
         return $menu;
