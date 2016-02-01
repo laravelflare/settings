@@ -35,4 +35,63 @@ class SettingsModule extends ModuleAdmin
      * @var string
      */
     protected static $controller = '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController';
+
+    /**
+     * Menu Items.
+     * 
+     * @return array
+     */
+    public function menuItems()
+    {
+        $menu = [];
+
+        foreach ($this->getSettingsPanels() as $panelKey => $panel) {
+            $menu['settings/'.$panelKey] = $this->settingsMenuTitle($panelKey, $panel);
+        }
+
+        if (count($menu) > 0) {
+            $menu = array_merge(['settings' => 'All Settings'], $menu);
+        }
+
+        return $menu;
+    }
+
+    /**
+     * Returns the title for a Settings Panel
+     * 
+     * @param  string  $panelKey 
+     * @param  array  $panel 
+     * 
+     * @return string 
+     */
+    public function settingsMenuTitle($panelKey, array $panel)
+    {
+        if (!isset($panel['title'])) {
+            return ucwords(str_replace(['-', '_'], ['',''], $panelKey));
+        }
+
+        return $panel['title'];
+    }
+
+    /**
+     * Returns a collection of Settings Panels.
+     * 
+     * @return 
+     */
+    public function getSettingsPanels()
+    {
+        return $this->getSettings()->filter(function ($item) {
+            return isset($item['options']);
+        });
+    }
+
+    /**
+     * Returns the settings as a Collection
+     * 
+     * @return 
+     */
+    protected function getSettings()
+    {
+        return collect(\Config::get('flare-config.settings'));
+    }
 }
