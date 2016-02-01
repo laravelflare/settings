@@ -11,6 +11,11 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Config
+        $this->publishes([
+            __DIR__.'/../config/flare/media.php' => config_path('flare-config/settings.php'),
+        ]);
+
         // Migrations
         $this->publishes([
             __DIR__.'/Database/Migrations' => base_path('database/migrations'),
