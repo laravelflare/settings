@@ -106,6 +106,6 @@ class SettingsModule extends ModuleAdmin
      */
     protected function getSettings()
     {
-        return collect(\Config::get('flare-config.settings'));
+        return collect(\Flare::config('settings'));
     }
 }

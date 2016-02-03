@@ -13,7 +13,7 @@ class SettingsServiceProvider extends ServiceProvider
     {
         // Config
         $this->publishes([
-            __DIR__.'/../config/flare/settings.php' => config_path('flare-config/settings.php'),
+            __DIR__.'/../config/flare/settings.php' => config_path('flare/settings.php'),
         ]);
 
         // Migrations
