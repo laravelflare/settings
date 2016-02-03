@@ -104,7 +104,7 @@ class SettingsModule extends ModuleAdmin
      * 
      * @return 
      */
-    protected function getSettings()
+    public function getSettings()
     {
         return collect(\Flare::config('settings'));
     }
