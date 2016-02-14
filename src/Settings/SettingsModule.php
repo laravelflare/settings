@@ -14,28 +14,28 @@ class SettingsModule extends ModuleAdmin
      *
      * @var string
      */
-    protected static $icon = 'cog';
+    protected $icon = 'cog';
 
     /**
      * Title of Admin Section.
      *
      * @var string
      */
-    protected static $title = 'Settings';
+    protected $title = 'Settings';
 
     /**
      * Title of Admin Section.
      *
      * @var string
      */
-    protected static $pluralTitle = 'Settings';
+    protected $pluralTitle = 'Settings';
 
     /**
      * The Controller to be used by the Pages Module.
      * 
      * @var string
      */
-    protected static $controller = '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController';
+    protected $controller = '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController';
 
     /**
      * Register the routes for the Settings Panel(s).
