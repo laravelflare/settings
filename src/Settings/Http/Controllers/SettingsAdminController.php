@@ -3,6 +3,7 @@
 namespace LaravelFlare\Settings\Http\Controllers;
 
 use LaravelFlare\Settings\Setting;
+use LaravelFlare\Settings\SettingsManager;
 use LaravelFlare\Flare\Admin\AdminManager;
 use LaravelFlare\Flare\Admin\Modules\ModuleAdminController;
 use LaravelFlare\Settings\Http\Requests\UpdateSettingsRequest;
@@ -21,7 +22,7 @@ class SettingsAdminController extends ModuleAdminController
      * 
      * @param AdminManager $adminManager
      */
-    public function __construct(AdminManager $adminManager)
+    public function __construct(AdminManager $adminManager, SettingsManager $settingsManager)
     {
         // Must call parent __construct otherwise 
         // we need to redeclare checkpermissions
@@ -29,6 +30,7 @@ class SettingsAdminController extends ModuleAdminController
         parent::__construct($adminManager);
 
         $this->admin = $this->adminManager->getAdminInstance();
+        $this->settings = $settingsManager;
     }
 
     /**
@@ -40,7 +42,17 @@ class SettingsAdminController extends ModuleAdminController
      */
     public function getIndex($panel = null)
     {
-        return view('flare::admin.settings.index', []);
+        // If no panel, load the default.
+        if (!$panel) {
+            $panel = 0;
+        }
+
+        // Replace for Middleware later.
+        if (!$this->settings->panelExists($panel)) {            
+            return self::missingMethod();
+        }
+
+        return view('flare::admin.settings.index', ['panel' => $this->settings->getPanel($panel)]);
     }
 
     /**

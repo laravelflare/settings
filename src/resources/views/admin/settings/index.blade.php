@@ -7,15 +7,19 @@
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title">
-                Other Settings
+                {{ $panel->title() }}
             </h3>
         </div>
         <form action="" method="post">
             <div class="box-body">
-                @if(false)
-                    @foreach ($modelAdmin->getFields() as $attribute => $field)
-                        {!! \Flare::renderAttribute('edit', $attribute, $field, $modelItem, $modelAdmin) !!}
+                @if(count($panel->fields()))
+                    @foreach ($panel->fields() as $attribute => $field)
+                        {{ $field->render('edit') }}
                     @endforeach
+                @else
+                    <p>
+                        This settings panel does not have any options defined.
+                    </p>
                 @endif
             </div>
             <div class="box-footer">

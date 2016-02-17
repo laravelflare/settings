@@ -2,7 +2,7 @@
 
 namespace LaravelFlare\Settings;
 
-use Illuminate\Support\ServiceProvider;
+use LaravelFlare\Flare\FlareModuleProvider as ServiceProvider;
 
 class SettingsServiceProvider extends ServiceProvider
 {
@@ -33,6 +33,14 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->registerFlareHelpers();
+    }
+
+    /**
+     * Register Flare Helper for Pages.
+     */
+    protected function registerFlareHelpers()
+    {
+        $this->flare->registerHelper('settings', \LaravelFlare\Settings\SettingsManager::class);
     }
 }
