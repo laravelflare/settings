@@ -3,6 +3,7 @@
 namespace LaravelFlare\Settings;
 
 use LaravelFlare\Fields\FieldManager;
+
 class Panel
 {
     /**
