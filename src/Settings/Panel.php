@@ -2,14 +2,14 @@
 
 namespace LaravelFlare\Settings;
 
+use LaravelFlare\Fields\FieldManager;
 use LaravelFlare\Settings\SettingsManager;
-use LaravelFlare\Flare\Admin\Attributes\AttributeManager;
 
 class Panel
 {
     protected $settingsManager;
 
-    protected $attributeManager;
+    protected $fields;
 
     protected $title;
 
@@ -20,7 +20,7 @@ class Panel
 
     public function __construct($key, $settings = [])
     {
-        $this->attributeManager = new AttributeManager();
+        $this->fields = new FieldManager();
        
         $this->setupPanel($key, $settings);
     }
@@ -70,11 +70,11 @@ class Panel
     }
 
     /**
-     * Return the Panel Fields
+     * Return the Panel Settings
      * 
      * @return string
      */
-    public function fields()
+    public function settings()
     {
         return $this->options;
     }
@@ -142,10 +142,17 @@ class Panel
 
         foreach ($options as $key => $option) {
             $fullKey = $this->key().'.'.$key;
-            $this->options->put($fullKey, $this->attributeManager->createAttribute($option['type'], $key, $option, $this->getSettingValue($fullKey)));
+            $this->options->put($fullKey, $this->fields->create($option['type'], $key, $this->getSettingValue($fullKey), $option));
         }
     }
 
+    /**
+     * Return a Setting Value
+     * 
+     * @param  string $key 
+     * 
+     * @return mixed      
+     */
     public function getSettingValue($key)
     {
         return $key;
@@ -159,7 +166,7 @@ class Panel
      * 
      * @return void
      */
-    protected function setupPanel($key, $settings)
+    private function setupPanel($key, $settings)
     {
         $this->setKey($key);
         $this->setTitle($settings);

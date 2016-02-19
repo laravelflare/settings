@@ -12,8 +12,8 @@
         </div>
         <form action="" method="post">
             <div class="box-body">
-                @if(count($panel->fields()))
-                    @foreach ($panel->fields() as $attribute => $field)
+                @if(count($panel->settings()))
+                    @foreach ($panel->settings() as $attribute => $field)
                         {{ $field->render('edit') }}
                     @endforeach
                 @else
