@@ -40,14 +40,14 @@ class SettingsModule extends ModuleAdmin
     /**
      * Register the routes for the Settings Panel(s).
      *
-     * @param  \Illuminate\Routing\Router $router
+     * @param \Illuminate\Routing\Router $router
      * 
      * @return
      */
     public function registerRoutes(Router $router)
     {
-        $router->get('settings/{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex'); 
-        $router->post('settings/{panel?', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex'); 
+        $router->get('settings/{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex')->name('settings');
+        $router->post('settings/{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@postIndex')->name('settings');
     }
 
     /**

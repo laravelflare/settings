@@ -3,30 +3,45 @@
 namespace LaravelFlare\Settings;
 
 use LaravelFlare\Fields\FieldManager;
-use LaravelFlare\Settings\SettingsManager;
-
 class Panel
 {
-    protected $settingsManager;
-
+    /**
+     * Fields Manager.
+     * 
+     * @var \LaravelFlare\Fields\FieldManager
+     */
     protected $fields;
 
+    /**
+     * Panel Title.
+     * 
+     * @var string
+     */
     protected $title;
 
+    /**
+     * Panel Key.
+     * 
+     * @var string
+     */
     protected $key;
 
+    /**
+     * Panel Options.
+     * 
+     * @var 
+     */
     protected $options;
-
 
     public function __construct($key, $settings = [])
     {
         $this->fields = new FieldManager();
-       
+
         $this->setupPanel($key, $settings);
     }
 
     /**
-     * Return the Panel Key
+     * Return the Panel Key.
      * 
      * @return string
      */
@@ -36,7 +51,7 @@ class Panel
     }
 
     /**
-     * Return the Panel Title
+     * Return the Panel Title.
      * 
      * @return string
      */
@@ -46,7 +61,7 @@ class Panel
     }
 
     /**
-     * Return the Panel Slug
+     * Return the Panel Slug.
      * 
      * @return string
      */
@@ -60,7 +75,7 @@ class Panel
     }
 
     /**
-     * Return the Panel URL
+     * Return the Panel URL.
      * 
      * @return string
      */
@@ -70,7 +85,7 @@ class Panel
     }
 
     /**
-     * Return the Panel Settings
+     * Return the Panel Settings.
      * 
      * @return string
      */
@@ -80,11 +95,9 @@ class Panel
     }
 
     /**
-     * Set the Panel Key
+     * Set the Panel Key.
      * 
      * @param string $key
-     * 
-     * @return void
      */
     public function setKey($key)
     {
@@ -92,22 +105,24 @@ class Panel
     }
 
     /**
-     * Returns the title for a Settings Panel
+     * Returns the title for a Settings Panel.
      * 
-     * @param  string  $panelKey 
-     * @param  array  $panel 
+     * @param string $panelKey
+     * @param array  $panel
      * 
-     * @return string 
+     * @return string
      */
     public function setTitle($settings = [])
     {
         if ($this->key() === 0) {
-            $this->title = "General Settings";
+            $this->title = 'General Settings';
+
             return;
         }
 
         if (!isset($settings['title'])) {
-            $this->title = ucwords(str_replace(['-', '_'], ['',''], $this->key()));
+            $this->title = ucwords(str_replace(['-', '_'], ['', ''], $this->key()));
+
             return;
         }
 
@@ -115,16 +130,15 @@ class Panel
     }
 
     /**
-     * Set Settings for Panel
+     * Set Settings for Panel.
      * 
      * @param array $settings
-     *
-     * @return void
      */
     public function setSettings($settings = [])
     {
         if (array_key_exists('options', $settings)) {
             $this->setOptions($settings['options']);
+
             return;
         }
 
@@ -132,7 +146,7 @@ class Panel
     }
 
     /**
-     * Setup a Collection of Options as Attribute Instances
+     * Setup a Collection of Options as Attribute Instances.
      * 
      * @param array $options
      */
@@ -147,11 +161,11 @@ class Panel
     }
 
     /**
-     * Return a Setting Value
+     * Return a Setting Value.
      * 
-     * @param  string $key 
+     * @param string $key
      * 
-     * @return mixed      
+     * @return mixed
      */
     public function getSettingValue($key)
     {
@@ -159,12 +173,10 @@ class Panel
     }
 
     /**
-     * Setup the Panel Information
+     * Setup the Panel Information.
      * 
-     * @param  string $key      
-     * @param  array $settings 
-     * 
-     * @return void
+     * @param string $key
+     * @param array  $settings
      */
     private function setupPanel($key, $settings)
     {

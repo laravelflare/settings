@@ -1,7 +1,5 @@
 @extends('flare::admin.sections.wrapper')
-
 @section('page_title', 'Settings')
-
 @section('content')
 
     <div class="box box-default">
@@ -10,7 +8,7 @@
                 {{ $panel->title() }}
             </h3>
         </div>
-        <form action="" method="post">
+        <form action="{{ route('flare::settings') }}" method="post">
             <div class="box-body">
                 @if(count($panel->settings()))
                     @foreach ($panel->settings() as $attribute => $field)

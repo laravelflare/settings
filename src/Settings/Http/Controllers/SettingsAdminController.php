@@ -2,7 +2,6 @@
 
 namespace LaravelFlare\Settings\Http\Controllers;
 
-use LaravelFlare\Settings\Setting;
 use LaravelFlare\Settings\SettingsManager;
 use LaravelFlare\Flare\Admin\AdminManager;
 use LaravelFlare\Flare\Admin\Modules\ModuleAdminController;
@@ -36,7 +35,7 @@ class SettingsAdminController extends ModuleAdminController
     /**
      * Settings Panel.
      * 
-     * @param  mixed $panel
+     * @param mixed $panel
      * 
      * @return \Illuminate\Http\Response
      */
@@ -48,7 +47,7 @@ class SettingsAdminController extends ModuleAdminController
         }
 
         // Replace for Middleware later.
-        if (!$this->settings->panelExists($panel)) {            
+        if (!$this->settings->panelExists($panel)) {
             return self::missingMethod();
         }
 
@@ -56,15 +55,14 @@ class SettingsAdminController extends ModuleAdminController
     }
 
     /**
-     * Process Settings Update
+     * Process Settings Update.
      *
-     * @param  mixed $panel
+     * @param mixed $panel
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postIndex(UpdateSettingsRequest $request, $panel = null)
     {
-
     }
 
     /**

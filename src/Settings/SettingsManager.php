@@ -2,16 +2,12 @@
 
 namespace LaravelFlare\Settings;
 
-use LaravelFlare\Flare\Flare;
-
 class SettingsManager
 {
     protected $panels;
 
     /**
-     * __construct
-     *
-     * 
+     * __construct.
      */
     public function __construct()
     {
@@ -19,7 +15,7 @@ class SettingsManager
     }
 
     /**
-     * Settings Menu Items
+     * Settings Menu Items.
      * 
      * @return array
      */
@@ -35,11 +31,11 @@ class SettingsManager
     }
 
     /**
-     * Does a Panel Exist in the Settings Controller
+     * Does a Panel Exist in the Settings Controller.
      *
      * @param string $panel
      * 
-     * @return boolean
+     * @return bool
      */
     public function panelExists($panel)
     {
@@ -51,9 +47,9 @@ class SettingsManager
     }
 
     /**
-     * Load a Panel from the Array of Settings Panels
+     * Load a Panel from the Array of Settings Panels.
      * 
-     * @param  string $panel 
+     * @param string $panel
      * 
      * @return array
      */
@@ -63,12 +59,10 @@ class SettingsManager
             return $this->panels[$panel];
         }
     }
-        
+
     /**
      * Initialize each of the Settings Panels and add them
      * to the Panels collection.
-     * 
-     * @return void
      */
     protected function setupPanels()
     {
@@ -77,7 +71,7 @@ class SettingsManager
             if (array_key_exists('options', $settings)) {
                 $panels[$key] = $settings;
                 continue;
-            } 
+            }
             $panels[0][$key] = $settings;
         }
 
@@ -88,7 +82,7 @@ class SettingsManager
     }
 
     /**
-     * Returns the settings as a Collection
+     * Returns the settings as a Collection.
      * 
      * @return 
      */
