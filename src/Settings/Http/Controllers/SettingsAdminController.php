@@ -75,6 +75,6 @@ class SettingsAdminController extends ModuleAdminController
      */
     public function missingMethod($parameters = array())
     {
-        parent::missingMethod();
+        return parent::missingMethod();
     }
 }
