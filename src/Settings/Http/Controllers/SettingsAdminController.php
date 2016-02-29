@@ -2,6 +2,7 @@
 
 namespace LaravelFlare\Settings\Http\Controllers;
 
+use LaravelFlare\Settings\Setting;
 use LaravelFlare\Settings\SettingsManager;
 use LaravelFlare\Flare\Admin\AdminManager;
 use LaravelFlare\Flare\Admin\Modules\ModuleAdminController;
@@ -73,9 +74,16 @@ class SettingsAdminController extends ModuleAdminController
             return self::missingMethod();
         }
 
-        foreach ($request->except(['_token']) as $key => $value) {
+        $panel = $this->settings->getPanel($panel);
 
+
+        foreach ($request->except(['_token']) as $key => $value) {
+            if ($panel->settings()->has($fullKey = $panel->key().'.'.$key)) {
+                Setting::updateOrCreate(['setting' => $fullKey], ['value' => $request->get($key)]);
+            }
         }
+
+        return redirect($request->url())->with('notifications_below_header', [['type' => 'success', 'icon' => 'check-circle', 'title' => 'Success!', 'message' => 'The settings have been updated.', 'dismissable' => false]]);
     }
 
     /**

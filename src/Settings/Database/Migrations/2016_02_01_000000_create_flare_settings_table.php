@@ -12,7 +12,7 @@ class CreateFlareSettingsTable extends Migration
     {
         Schema::create('flare_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key');
+            $table->string('key')->unique();
             $table->text('value')->nullable();
             $table->string('type')->nullable();
             $table->timestamps();

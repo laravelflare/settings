@@ -2,6 +2,7 @@
 
 namespace LaravelFlare\Settings;
 
+use LaravelFlare\Settings;
 use LaravelFlare\Fields\FieldManager;
 
 class Panel
@@ -176,7 +177,7 @@ class Panel
      */
     public function getSettingValue($key)
     {
-        return $key;
+        return Setting::firstOrNew(['setting' => $key])->value;
     }
 
     /**
