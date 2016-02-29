@@ -63,6 +63,19 @@ class SettingsAdminController extends ModuleAdminController
      */
     public function postIndex(UpdateSettingsRequest $request, $panel = null)
     {
+        // If no panel, load the default.
+        if (!$panel) {
+            $panel = 0;
+        }
+
+        // Replace for Middleware later.
+        if (!$this->settings->panelExists($panel)) {
+            return self::missingMethod();
+        }
+
+        foreach ($request->except(['_token']) as $key => $value) {
+
+        }
     }
 
     /**

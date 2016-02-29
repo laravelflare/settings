@@ -8,9 +8,9 @@
                 {{ $panel->title() }}
             </h3>
         </div>
-        <form action="{{ route('flare::settings') }}" method="post">
+        <form action="{{ route('flare::settings', ['panel' => $panel->key()]) }}" method="post">
             <div class="box-body">
-                @if(count($panel->settings()))
+                @if($hasSettings = count($panel->settings()))
                     @foreach ($panel->settings() as $attribute => $field)
                         {{ $field->render('edit') }}
                     @endforeach
@@ -22,7 +22,7 @@
             </div>
             <div class="box-footer">
                 {!! csrf_field() !!}
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" {{ !$hasSettings ? 'disabled' : '' }}>
                     <i class="fa fa-cog"></i>
                     Update Settings
                 </button>

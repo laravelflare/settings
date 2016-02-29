@@ -34,6 +34,12 @@ class Panel
      */
     protected $options;
 
+    /**
+     * __construct
+     * 
+     * @param stirng $key
+     * @param array  $settings 
+     */
     public function __construct($key, $settings = [])
     {
         $this->fields = new FieldManager();

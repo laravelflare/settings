@@ -21,8 +21,16 @@ class UpdateSettingsRequest extends Request
      */
     public function rules()
     {
-        return [
+        return [];
+    }
 
-        ];
+    /**
+     * Set custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [];
     }
 }
