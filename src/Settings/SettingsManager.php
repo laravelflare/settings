@@ -61,6 +61,31 @@ class SettingsManager
     }
 
     /**
+     * Return a Setting.
+     * 
+     * @param string $key
+     * 
+     * @return mixed
+     */
+    public function getSetting($key)
+    {
+        return Setting::firstOrNew(['setting' => $key]);
+    }
+
+    /**
+     * Return a Setting Value.
+     * 
+     * @param string $key
+     * 
+     * @return mixed
+     */
+    public function getValue($key)
+    {
+        return $this->getSetting($key)->value;
+    }
+
+
+    /**
      * Initialize each of the Settings Panels and add them
      * to the Panels collection.
      */

@@ -163,9 +163,20 @@ class Panel
         $this->options = collect();
 
         foreach ($options as $key => $option) {
-            $fullKey = $this->key().'.'.$key;
-            $this->options->put($fullKey, $this->fields->create($option['type'], $key, $this->getSettingValue($fullKey), $option));
+            $this->options->put($this->key().'.'.$key, $this->fields->create($option['type'], $key, $this->getValue($key), $option));
         }
+    }
+
+    /**
+     * Return a Setting.
+     * 
+     * @param string $key
+     * 
+     * @return mixed
+     */
+    public function getSetting($key)
+    {
+        return Setting::firstOrNew(['setting' => $this->key().'.'.$key]);
     }
 
     /**
@@ -175,9 +186,9 @@ class Panel
      * 
      * @return mixed
      */
-    public function getSettingValue($key)
+    public function getValue($key)
     {
-        return Setting::firstOrNew(['setting' => $key])->value;
+        return $this->getSetting($key)->value;
     }
 
     /**
