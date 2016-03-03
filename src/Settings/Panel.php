@@ -4,6 +4,7 @@ namespace LaravelFlare\Settings;
 
 use LaravelFlare\Settings;
 use LaravelFlare\Fields\FieldManager;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class Panel
 {
@@ -34,6 +35,13 @@ class Panel
      * @var 
      */
     protected $options;
+
+    /**
+     * Panel Settings.
+     * 
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    protected $settings;
 
     /**
      * __construct
@@ -176,7 +184,25 @@ class Panel
      */
     public function getSetting($key)
     {
-        return Setting::firstOrNew(['setting' => $this->key().'.'.$key]);
+        if (!$this->settings) {
+            $this->getSettings();
+        }
+
+        if ($this->settings instanceof EloquentCollection && $this->settings->where('setting', $this->key().'.'.$key)->first()) {
+            return $this->settings->where('setting', $this->key().'.'.$key)->first();
+        }
+
+        return new Setting(['setting' => $this->key().'.'.$key]);
+    }
+
+    /**
+     * Get all of the settings from the Flare Settings table.
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getSettings()
+    {
+        $this->settings = Setting::all();
     }
 
     /**

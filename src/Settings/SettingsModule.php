@@ -44,9 +44,9 @@ class SettingsModule extends ModuleAdmin
      */
     public function registerRoutes(Router $router)
     {
-        $router->group(['prefix' => $this->urlPrefix(), 'namespace' => get_called_class(), 'as' => $this->urlPrefix()], function ($router) {
-            $router->get('{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex')->name('settings');
-            $router->post('{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@postIndex')->name('settings');
+        $router->group(['prefix' => $this->urlPrefix(), 'namespace' => get_called_class(), 'as' => $this->urlPrefix(), 'name' => 'settings'], function ($router) {
+            $router->get('{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex');
+            $router->post('{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@postIndex');
         });
     }
 

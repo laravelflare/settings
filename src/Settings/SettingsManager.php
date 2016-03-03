@@ -4,6 +4,11 @@ namespace LaravelFlare\Settings;
 
 class SettingsManager
 {
+    /**
+     * Panels
+     * 
+     * @var array
+     */
     protected $panels;
 
     /**
