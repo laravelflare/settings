@@ -5,6 +5,7 @@ namespace LaravelFlare\Settings;
 use LaravelFlare\Settings;
 use LaravelFlare\Fields\FieldManager;
 use Illuminate\Foundation\Http\FormRequest as Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile as File;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class Panel
@@ -309,6 +310,10 @@ class Panel
      */
     public function updateSetting($key, $value)
     {
+        if ($value instanceof File) {
+            $value = asset('files/'.$this->processFile($value));
+        }
+
         $this->setting($key)->setAttribute('value', $value)->save();
     }
 
@@ -324,6 +329,26 @@ class Panel
         foreach ($request->only($this->options()->keys()->toArray()) as $key => $value) {
             $this->updateSetting($key, $value);
         };
+    }
+
+    /**
+     * Process Uploaded File.
+     * 
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
+     * @return string
+     */
+    protected function processFile($file)
+    {
+        if (!$file) {
+            return;
+        }
+
+        $file->move(
+            base_path().'/public/files/', $filename = (time().'-'.$file->getClientOriginalName())
+        );
+
+        return $filename;
     }
 
     /**

@@ -8,7 +8,7 @@
                 {{ $panel->title() }}
             </h3>
         </div>
-        <form action="{{ route('flare::settings', ['panel' => $panel->key()]) }}" method="post">
+        <form action="{{ route('flare::settings', ['panel' => $panel->key()]) }}" method="post" enctype="multipart/form-data">
             <div class="box-body">
                 @if($hasSettings = count($panel->fields()))
                     @foreach ($panel->fields() as $attribute => $field)
