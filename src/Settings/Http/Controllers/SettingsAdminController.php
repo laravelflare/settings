@@ -76,10 +76,9 @@ class SettingsAdminController extends ModuleAdminController
 
         $panel = $this->settings->getPanel($panel);
 
-
         foreach ($request->except(['_token']) as $key => $value) {
-            if ($panel->settings()->has($fullKey = $panel->key().'.'.$key)) {
-                Setting::updateOrCreate(['setting' => $fullKey], ['value' => $request->get($key)]);
+            if ($panel->fields()->has($fullKey = $panel->key().'.'.$key)) {
+                Setting::updateOrCreate(['key' => $fullKey], ['value' => $request->get($key)]);
             }
         }
 

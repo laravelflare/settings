@@ -64,13 +64,20 @@ class Panel
     }
 
     /**
-     * Return the Panel Key.
+     * Return the Panel Key, with the Setting Key
+     * appended (with dot notation) if provided.
+     *
+     * @param string $key
      * 
      * @return string
      */
-    public function key()
+    public function key($key = null)
     {
-        return $this->key;
+        if (!$key) {
+            return $this->key;
+        }
+
+        return $this->key . '.' . $key;
     }
 
     /**
@@ -236,11 +243,11 @@ class Panel
             $this->getSettings();
         }
 
-        if ($this->settings instanceof EloquentCollection && $this->settings->where('key', $key)->first()) {
-            return $this->settings->where('key', $this->key().'.'.$key)->first();
+        if ($this->settings instanceof EloquentCollection && $this->settings->where('key', $this->key($key))->first()) {
+            return $this->settings->where('key', $this->key($key))->first();
         }
 
-        return new Setting(['key' => $this->key().'.'.$key, 'value' => $this->getDefaultValue($key)]);
+        return new Setting(['key' => $this->key($key), 'value' => $this->getDefaultValue($key)]);
     }
 
     /**
