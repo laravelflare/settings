@@ -62,13 +62,8 @@ class SettingsAdminController extends ModuleAdminController
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postIndex(UpdateSettingsRequest $request, $panel = null)
+    public function postIndex(UpdateSettingsRequest $request, $panel = 0)
     {
-        // If no panel, load the default.
-        if (!$panel) {
-            $panel = 0;
-        }
-
         // Replace for Middleware later.
         if (!$this->settings->panelExists($panel)) {
             return self::missingMethod();
