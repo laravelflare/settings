@@ -4,6 +4,7 @@ namespace LaravelFlare\Settings;
 
 use LaravelFlare\Settings;
 use LaravelFlare\Fields\FieldManager;
+use Illuminate\Foundation\Http\FormRequest as Request;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class Panel
@@ -296,6 +297,33 @@ class Panel
         if ($setting = $this->options->get($key)) {
             return isset($setting['default']) ? $setting['default'] : null;
         }
+    }
+
+    /**
+     * Update an Individual Setting
+     * 
+     * @param  string $key   
+     * @param  mixed $value 
+     * 
+     * @return void
+     */
+    public function updateSetting($key, $value)
+    {
+        $this->setting($key)->setAttribute('value', $value)->save();
+    }
+
+    /**
+     * Update the Paenl using the input provided by a FormRequest
+     * 
+     * @param  \Illuminate\Foundation\Http\FormRequest $request 
+     * 
+     * @return void
+     */
+    public function updateFromRequest(Request $request)
+    {
+        foreach ($request->only($this->options()->keys()->toArray()) as $key => $value) {
+            $this->updateSetting($key, $value);
+        };
     }
 
     /**

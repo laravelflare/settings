@@ -40,13 +40,8 @@ class SettingsAdminController extends ModuleAdminController
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getIndex($panel = null)
+    public function getIndex($panel = 0)
     {
-        // If no panel, load the default.
-        if (!$panel) {
-            $panel = 0;
-        }
-
         // Replace for Middleware later.
         if (!$this->settings->panelExists($panel)) {
             return self::missingMethod();
@@ -69,13 +64,7 @@ class SettingsAdminController extends ModuleAdminController
             return self::missingMethod();
         }
 
-        $panel = $this->settings->getPanel($panel);
-
-        foreach ($request->except(['_token']) as $key => $value) {
-            if ($panel->fields()->has($fullKey = $panel->key().'.'.$key)) {
-                Setting::updateOrCreate(['key' => $fullKey], ['value' => $request->get($key)]);
-            }
-        }
+        $this->settings->getPanel($panel)->updateFromRequest($request);
 
         return redirect($request->url())->with('notifications_below_header', [['type' => 'success', 'icon' => 'check-circle', 'title' => 'Success!', 'message' => 'The settings have been updated.', 'dismissable' => false]]);
     }
