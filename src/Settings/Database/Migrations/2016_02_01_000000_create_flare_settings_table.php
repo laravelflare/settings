@@ -24,6 +24,6 @@ class CreateFlareSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('settings');
+        Schema::drop('flare_settings');
     }
 }
