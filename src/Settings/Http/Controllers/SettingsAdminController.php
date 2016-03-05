@@ -18,6 +18,13 @@ class SettingsAdminController extends ModuleAdminController
     protected $admin;
 
     /**
+     * Settings Manager Instance.
+     * 
+     * @var 
+     */
+    protected $settings;
+
+    /**
      * __construct.
      * 
      * @param AdminManager $adminManager
@@ -42,11 +49,6 @@ class SettingsAdminController extends ModuleAdminController
      */
     public function getIndex($panel = 0)
     {
-        // Replace for Middleware later.
-        if (!$this->settings->panelExists($panel)) {
-            return self::missingMethod();
-        }
-
         return view('flare::admin.settings.index', ['panel' => $this->settings->getPanel($panel)]);
     }
 
@@ -59,11 +61,6 @@ class SettingsAdminController extends ModuleAdminController
      */
     public function postIndex(UpdateSettingsRequest $request, $panel = 0)
     {
-        // Replace for Middleware later.
-        if (!$this->settings->panelExists($panel)) {
-            return self::missingMethod();
-        }
-
         $this->settings->getPanel($panel)->updateFromRequest($request);
 
         return redirect($request->url())->with('notifications_below_header', [['type' => 'success', 'icon' => 'check-circle', 'title' => 'Success!', 'message' => 'The settings have been updated.', 'dismissable' => false]]);
