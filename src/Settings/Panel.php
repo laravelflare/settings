@@ -13,7 +13,7 @@ class Panel
      * 
      * @var \LaravelFlare\Fields\FieldManager
      */
-    protected $fields;
+    protected $fieldManager;
 
     /**
      * Panel Title.
@@ -37,6 +37,13 @@ class Panel
     protected $options;
 
     /**
+     * Panel Fields.
+     * 
+     * @var 
+     */
+    protected $fields;
+
+    /**
      * Panel Settings.
      * 
      * @var \Illuminate\Database\Eloquent\Collection
@@ -51,7 +58,7 @@ class Panel
      */
     public function __construct($key, $settings = [])
     {
-        $this->fields = new FieldManager();
+        $this->fieldManager = new FieldManager();
 
         $this->setupPanel($key, $settings);
     }
@@ -107,7 +114,27 @@ class Panel
      */
     public function settings()
     {
+        return $this->settings;
+    }
+
+    /**
+     * Return the Panel Settings.
+     * 
+     * @return string
+     */
+    public function options()
+    {
         return $this->options;
+    }
+
+    /**
+     * Return the Panel Fields.
+     * 
+     * @return string
+     */
+    public function fields()
+    {
+        return $this->fields;
     }
 
     /**
@@ -162,17 +189,38 @@ class Panel
     }
 
     /**
-     * Setup a Collection of Options as Attribute Instances.
+     * Setup a Collection of Options for the Panel,
+     * and then setup the Options as Attribute Instances.
      * 
      * @param array $options
      */
     public function setOptions($options)
     {
-        $this->options = collect();
+        $this->options = collect($options);
 
-        foreach ($options as $key => $option) {
-            $this->options->put($this->key().'.'.$key, $this->fields->create($option['type'], $key, $this->getValue($key), $option));
+        $this->setFields();
+    }
+
+
+    public function setFields()
+    {
+        $this->fields = collect();
+
+        foreach ($this->options as $key => $option) {
+            $this->fields->put($this->key().'.'.$key, $this->fieldManager->create($option['type'], $key, $this->getValue($key), $option));
         }
+    }
+
+    /**
+     * Alias of getSetting($key).
+     * 
+     * @param string $key
+     * 
+     * @return mixed
+     */
+    public function setting($key)
+    {
+        return $this->getSetting($key);
     }
 
     /**
@@ -188,11 +236,11 @@ class Panel
             $this->getSettings();
         }
 
-        if ($this->settings instanceof EloquentCollection && $this->settings->where('setting', $this->key().'.'.$key)->first()) {
-            return $this->settings->where('setting', $this->key().'.'.$key)->first();
+        if ($this->settings instanceof EloquentCollection && $this->settings->where('key', $key)->first()) {
+            return $this->settings->where('key', $this->key().'.'.$key)->first();
         }
 
-        return new Setting(['setting' => $this->key().'.'.$key]);
+        return new Setting(['key' => $this->key().'.'.$key, 'value' => $this->getDefaultValue($key)]);
     }
 
     /**
@@ -206,6 +254,18 @@ class Panel
     }
 
     /**
+     * Alias of getValue($key).
+     * 
+     * @param string $key
+     * 
+     * @return mixed
+     */
+    public function value($key)
+    {
+        return $this->getValue($key);
+    }
+
+    /**
      * Return a Setting Value.
      * 
      * @param string $key
@@ -215,6 +275,20 @@ class Panel
     public function getValue($key)
     {
         return $this->getSetting($key)->value;
+    }
+
+    /**
+     * Return a Default Setting Value.
+     * 
+     * @param string $key
+     * 
+     * @return mixed
+     */
+    public function getDefaultValue($key)
+    {
+        if ($setting = $this->options->get($key)) {
+            return isset($setting['default']) ? $setting['default'] : null;
+        }
     }
 
     /**

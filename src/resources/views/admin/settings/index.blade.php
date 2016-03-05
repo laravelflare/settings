@@ -10,8 +10,8 @@
         </div>
         <form action="{{ route('flare::settings', ['panel' => $panel->key()]) }}" method="post">
             <div class="box-body">
-                @if($hasSettings = count($panel->settings()))
-                    @foreach ($panel->settings() as $attribute => $field)
+                @if($hasSettings = count($panel->fields()))
+                    @foreach ($panel->fields() as $attribute => $field)
                         {{ $field->render('edit') }}
                     @endforeach
                 @else

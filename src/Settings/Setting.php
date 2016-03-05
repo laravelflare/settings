@@ -3,6 +3,7 @@
 namespace LaravelFlare\Settings;
 
 use Illuminate\Database\Eloquent\Model;
+use LaravelFlare\Settings\SettingsManager;
 
 class Setting extends Model
 {
@@ -18,5 +19,5 @@ class Setting extends Model
      *
      * @var array
      */
-    protected $fillable = ['setting', 'value', 'type'];
+    protected $fillable = ['key', 'value', 'type'];
 }

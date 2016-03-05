@@ -52,17 +52,41 @@ class SettingsManager
     }
 
     /**
+     * Alias of getPanel($panel)
+     * 
+     * @param  string $panel
+     * 
+     * @return array|void
+     */
+    public function panel($panel)
+    {
+        return $this->getPanel($panel);
+    }
+
+    /**
      * Load a Panel from the Array of Settings Panels.
      * 
      * @param string $panel
      * 
-     * @return array
+     * @return array|void
      */
     public function getPanel($panel)
     {
         if (isset($this->panels[$panel])) {
             return $this->panels[$panel];
         }
+    }
+
+    /**
+     * Alias of getValue($panel).
+     * 
+     * @param string $key
+     * 
+     * @return mixed
+     */
+    public function value($key)
+    {
+        return $this->getValue($key);
     }
 
     /**
@@ -74,7 +98,7 @@ class SettingsManager
      */
     public function getSetting($key)
     {
-        return Setting::firstOrNew(['setting' => $key]);
+        return Setting::firstOrNew(['key' => $key])->setAttribute('value', $this->getDefaultValue($key));
     }
 
     /**
@@ -89,6 +113,21 @@ class SettingsManager
         return $this->getSetting($key)->value;
     }
 
+    /**
+     * Get the Default Value (if set) for a Setting.
+     * 
+     * @param  string $key
+     * 
+     * @return mixed
+     */
+    public static function getDefaultValue($key)
+    {
+        if (strpos($key, '.') !== false) {
+            list($panel, $key) = explode('.', $key, 2);
+        }
+
+        // TBC
+    }
 
     /**
      * Initialize each of the Settings Panels and add them
