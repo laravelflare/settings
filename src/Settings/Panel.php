@@ -210,7 +210,11 @@ class Panel
         $this->setFields();
     }
 
-
+    /**
+     * Set the available fields.
+     *
+     * @return void
+     */
     public function setFields()
     {
         $this->fields = collect();

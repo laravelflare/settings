@@ -98,7 +98,7 @@ class SettingsManager
      */
     public function getSetting($key)
     {
-        return Setting::firstOrNew(['key' => $key])->setAttribute('value', $this->getDefaultValue($key));
+        return Setting::firstOrNew(['key' => $key]); //->setAttribute('value', $this->getDefaultValue($key));
     }
 
     /**
