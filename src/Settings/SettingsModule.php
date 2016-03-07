@@ -38,16 +38,16 @@ class SettingsModule extends ModuleAdmin
     protected $controller = '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController';
 
     /**
-     * Register the routes for the Settings Panel(s).
+     * Register the routes for this Admin Section.
      *
-     * @param  \Illuminate\Routing\Router $router
-     * 
-     * @return
+     * @param \Illuminate\Routing\Router $router
      */
     public function registerRoutes(Router $router)
     {
-        $router->get('settings/{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex'); 
-        $router->post('settings/{panel?', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex'); 
+        $router->group(['prefix' => $this->urlPrefix(), 'namespace' => get_called_class(), 'as' => $this->urlPrefix(), 'name' => 'settings', 'middleware' => \LaravelFlare\Settings\Http\Middleware\PanelExists::class], function ($router) {
+            $router->get('{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@getIndex');
+            $router->post('{panel?}', '\LaravelFlare\Settings\Http\Controllers\SettingsAdminController@postIndex');
+        });
     }
 
     /**
@@ -57,55 +57,6 @@ class SettingsModule extends ModuleAdmin
      */
     public function menuItems()
     {
-        $menu = [];
-
-        foreach ($this->getSettingsPanels() as $panelKey => $panel) {
-            $menu['settings/'.$panelKey] = $this->settingsMenuTitle($panelKey, $panel);
-        }
-
-        if (count($menu) > 0) {
-            $menu = array_merge(['settings' => 'Other Settings'], $menu);
-        }
-
-        return $menu;
-    }
-
-    /**
-     * Returns the title for a Settings Panel
-     * 
-     * @param  string  $panelKey 
-     * @param  array  $panel 
-     * 
-     * @return string 
-     */
-    public function settingsMenuTitle($panelKey, array $panel)
-    {
-        if (!isset($panel['title'])) {
-            return ucwords(str_replace(['-', '_'], ['',''], $panelKey));
-        }
-
-        return $panel['title'];
-    }
-
-    /**
-     * Returns a collection of Settings Panels.
-     * 
-     * @return 
-     */
-    public function getSettingsPanels()
-    {
-        return $this->getSettings()->filter(function ($item) {
-            return isset($item['options']);
-        });
-    }
-
-    /**
-     * Returns the settings as a Collection
-     * 
-     * @return 
-     */
-    public function getSettings()
-    {
-        return collect(\Flare::config('settings'));
+        return \Flare::settings()->menu();
     }
 }

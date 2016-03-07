@@ -1,26 +1,28 @@
 @extends('flare::admin.sections.wrapper')
-
 @section('page_title', 'Settings')
-
 @section('content')
 
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title">
-                Other Settings
+                {{ $panel->title() }}
             </h3>
         </div>
-        <form action="" method="post">
+        <form action="{{ route('flare::settings', ['panel' => $panel->key()]) }}" method="post" enctype="multipart/form-data">
             <div class="box-body">
-                @if(false)
-                    @foreach ($modelAdmin->getFields() as $attribute => $field)
-                        {!! \Flare::renderAttribute('edit', $attribute, $field, $modelItem, $modelAdmin) !!}
+                @if($hasSettings = count($panel->fields()))
+                    @foreach ($panel->fields() as $attribute => $field)
+                        {{ $field->render('edit') }}
                     @endforeach
+                @else
+                    <p>
+                        This settings panel does not have any options defined.
+                    </p>
                 @endif
             </div>
             <div class="box-footer">
                 {!! csrf_field() !!}
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" {{ !$hasSettings ? 'disabled' : '' }}>
                     <i class="fa fa-cog"></i>
                     Update Settings
                 </button>

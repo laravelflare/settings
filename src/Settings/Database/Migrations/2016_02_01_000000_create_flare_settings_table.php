@@ -10,10 +10,11 @@ class CreateFlareSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('flare_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('setting');
+            $table->string('key')->unique();
             $table->text('value')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ class CreateFlareSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('settings');
+        Schema::drop('flare_settings');
     }
 }
