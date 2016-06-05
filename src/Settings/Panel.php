@@ -220,6 +220,7 @@ class Panel
         $this->fields = collect();
 
         foreach ($this->options as $key => $option) {
+            if (!isset($option['type'])) continue;
             $this->fields->put($this->key().'.'.$key, $this->fieldManager->create($option['type'], $key, $this->getValue($key), $option));
         }
     }
