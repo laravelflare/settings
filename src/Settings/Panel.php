@@ -60,7 +60,7 @@ class Panel
      */
     public function __construct($key, $settings = [])
     {
-        $this->fieldManager = new FieldManager();
+        $this->fieldManager = \App::make('LaravelFlare\Fields\FieldManager');
 
         $this->setupPanel($key, $settings);
     }
